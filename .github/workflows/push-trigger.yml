@@ -31,8 +31,8 @@ jobs:
 
       - name: Build project and run tests
         run: |
-          swift build -Xswiftc -enable-objc-interop
-          swift test -Xswiftc -enable-objc-interop
+          swift build 
+          swift test 
 
 #      - name: Notify on Slack
 #        uses: rtCamp/action-slack-notify@v2

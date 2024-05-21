@@ -1,0 +1,44 @@
+name: Push trigger for swift-library
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/**
+      - hotfix/**
+      - injimob-1313-library
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+      - develop
+      - feature/**
+      - hotfix/**
+
+jobs:
+  build-swift:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Swift
+        uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: '5.9'
+
+      - name: Build project and run tests
+        run: |
+          swift build -Xswiftc -enable-objc-interop
+          swift test -Xswiftc -enable-objc-interop
+
+#      - name: Notify on Slack
+#        uses: rtCamp/action-slack-notify@v2
+#        with:
+#          status: ${{ job.status }}
+#          fields: repo,message,author,commit,workflow,job 
+#        env:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_INJI_TEAM }}
+#        if: "${{ github.event_name != 'pull_request' && failure() }}"

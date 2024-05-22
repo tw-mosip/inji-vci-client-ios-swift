@@ -3,10 +3,10 @@ import Foundation
 class LdpVcCredentialRequest{
     
     func constructRequest(url: URL,
-                                credentialFormat: CredentialFormat,
-                                accessToken: String,
-                                issuer: IssuerMeta,
-                                proofJwt: JWTProof) throws -> URLRequest{
+                          credentialFormat: CredentialFormat,
+                          accessToken: String,
+                          issuer: IssuerMeta,
+                          proofJwt: JWTProof) throws -> URLRequest{
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

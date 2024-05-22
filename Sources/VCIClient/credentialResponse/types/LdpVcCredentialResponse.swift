@@ -14,13 +14,13 @@ struct Credential: Codable , CredentialResponse{
     let type: [String]
     let contextArray: [String]?
     let contextDict: [String: String]?
-
+    
     enum CodingKeys: String, CodingKey {
         case credentialSubject, id, proof, type, issuer, issuanceDate
         case contextArray = "@context"
         case contextDict
     }
-
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         issuer = try values.decode(String.self, forKey: .issuer)
@@ -56,8 +56,8 @@ struct CredentialSubject: Codable {
     let addressLine1: [AddressLine1]
     let email: String
     let UIN: String
-
-
+    
+    
     enum CodingKeys: String, CodingKey {
         case face, gender, phone, city, fullName, addressLine1, dateOfBirth, id, UIN, email
     }

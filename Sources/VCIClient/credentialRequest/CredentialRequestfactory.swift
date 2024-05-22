@@ -8,7 +8,10 @@ class CredentialRequestfactory{
                                         proofJwt: Proof) -> URLRequest {
         switch credentialFormat{
         case .ldp_vc: try! LdpVcCredentialRequest().constructRequest(url: url,
-                                                                     credentialFormat: credentialFormat, accessToken: accessToken, issuer: issuer, proofJwt: proofJwt as! JWTProof )
+                                                credentialFormat: credentialFormat,
+                                                accessToken: accessToken,
+                                                issuer: issuer,
+                                                proofJwt: proofJwt as! JWTProof )
         }
     }
 }

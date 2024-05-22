@@ -23,5 +23,4 @@ class UtilTests: XCTestCase {
         XCTAssertEqual(logTag1, "INJI-VCI-Client : \(className) | traceID \(traceabilityId1)")
         XCTAssertEqual(logTag2, "INJI-VCI-Client : \(className) | traceID \(traceabilityId2)")
     }
-    
 }

@@ -9,7 +9,6 @@ public class VCIClient {
         self.traceabilityId = traceabilityId
         self.networkSession = networkSession ?? URLSession.shared
     }
-    // TODO: remove the swift example from this and replace with the correct one
     
     public func requestCredential(
         issuerMeta: IssuerMeta,
@@ -35,7 +34,7 @@ public class VCIClient {
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw DownloadFailedError.noResponse
             }
-
+            
             guard httpResponse.statusCode == 200 else {
                 let statusCode = httpResponse.statusCode
                 let errorDescription = HTTPURLResponse.localizedString(forStatusCode: statusCode)
@@ -86,5 +85,4 @@ public class VCIClient {
             throw error
         }
     }
-
 }

@@ -16,7 +16,6 @@ let package = Package(
             targets: ["VCIClient"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/jwt-kit.git", from: "5.0.0-beta"),
         .package(url: "https://github.com/auth0/JWTDecode.swift.git", from: "2.4.1"),
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.1"),
     ],
@@ -24,7 +23,6 @@ let package = Package(
         .target(
             name: "VCIClient",
             dependencies: [
-            .product(name: "JWTKit", package: "jwt-kit"),
             .product(name: "JWTDecode", package: "JWTDecode.swift"),
             .product(name: "Alamofire", package: "Alamofire"),
         ]),

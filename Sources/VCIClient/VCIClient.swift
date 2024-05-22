@@ -1,5 +1,4 @@
 import Foundation
-import JWTKit
 
 public class VCIClient {
     
@@ -14,20 +13,19 @@ public class VCIClient {
     
     public func requestCredential(
         issuerMeta: IssuerMeta,
-        signer: @escaping (JWTPayload, JWTHeader) async throws -> String,
         accessToken: String,
         publicKey: String
     ) async throws -> CredentialResponse? {
         let logTag = Util.getLogTag(className: String(describing: type(of: self)), traceabilityId: traceabilityId)
         do {
             
-            let proofJWT = try await JWTProof(
-                publicKey: publicKey,
-                issuerMeta: issuerMeta,
-                signer: signer,
-                accessToken: accessToken
-            ).getJWT()
-            
+//            let proofJWT = try await JWTProof(
+//                publicKey: publicKey,
+//                issuerMeta: issuerMeta,
+// 
+//                accessToken: accessToken
+//            ).getJWT()
+            let proofJWT = ""
             guard let url = URL(string: issuerMeta.credentialEndpoint) else {
                 throw DownloadFailedError.invalidURL
             }

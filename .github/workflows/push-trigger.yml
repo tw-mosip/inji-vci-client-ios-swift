@@ -17,7 +17,7 @@ on:
 
 jobs:
   build-swift:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     
     steps:
       - name: Checkout code
@@ -26,15 +26,16 @@ jobs:
       - name: Set up Swift
         uses: swift-actions/setup-swift@v1
         with:
-          swift-version: '5.9'
+          swift-version: '5.9.2'  
 
-      - name: Build project and run tests
-        run: |
-          swift build
-          swift test
+      - name: Build project
+        run: swift build
+
+      - name: Run tests
+        run: swift test
 
       - name: Notify on Slack
-        uses: rtCamp/action-slack-notify@v2
+        uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,message,author,commit,workflow,job 

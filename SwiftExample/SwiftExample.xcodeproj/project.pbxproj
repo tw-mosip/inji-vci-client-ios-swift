@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E81841842BFE002A00F49888 /* VCIClient in Frameworks */ = {isa = PBXBuildFile; productRef = E81841832BFE002A00F49888 /* VCIClient */; };
+		E882ADE52BFDBD6900921968 /* VCIClient in Frameworks */ = {isa = PBXBuildFile; productRef = E882ADE42BFDBD6900921968 /* VCIClient */; };
 		E8CBE0C32BEB8ADF00239971 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CBE0C22BEB8ADF00239971 /* AppDelegate.swift */; };
 		E8CBE0C52BEB8ADF00239971 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CBE0C42BEB8ADF00239971 /* SceneDelegate.swift */; };
 		E8CBE0C72BEB8ADF00239971 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CBE0C62BEB8ADF00239971 /* ViewController.swift */; };
@@ -14,7 +16,6 @@
 		E8CBE0CC2BEB8AE100239971 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8CBE0CB2BEB8AE100239971 /* Assets.xcassets */; };
 		E8CBE0CF2BEB8AE100239971 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8CBE0CD2BEB8AE100239971 /* LaunchScreen.storyboard */; };
 		E8CBE0D82BEB8B0300239971 /* VCIClient in Frameworks */ = {isa = PBXBuildFile; productRef = E8CBE0D72BEB8B0300239971 /* VCIClient */; };
-		E8CBE0DA2BEB8BC200239971 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CBE0D92BEB8BC200239971 /* Utils.swift */; };
 		E8CBE0E22BEBBD4000239971 /* AppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E8CBE0E12BEBBD4000239971 /* AppAuth */; };
 		E8CBE0E42BEBBD4000239971 /* AppAuthCore in Frameworks */ = {isa = PBXBuildFile; productRef = E8CBE0E32BEBBD4000239971 /* AppAuthCore */; };
 		E8CBE0E62BEBBD4000239971 /* AppAuthTV in Frameworks */ = {isa = PBXBuildFile; productRef = E8CBE0E52BEBBD4000239971 /* AppAuthTV */; };
@@ -22,7 +23,6 @@
 		E8CBE0EA2BEBEF2F00239971 /* KeyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8CBE0E92BEBEF2F00239971 /* KeyGenerator.swift */; };
 		E8F946A92BEE09CA007193D5 /* AlertPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F946A82BEE09CA007193D5 /* AlertPopUp.swift */; };
 		E8F946AB2BEE0A75007193D5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F946AA2BEE0A75007193D5 /* Constants.swift */; };
-		E8F946AD2BF14317007193D5 /* testFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F946AC2BF14317007193D5 /* testFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,12 +34,10 @@
 		E8CBE0CB2BEB8AE100239971 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8CBE0CE2BEB8AE100239971 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E8CBE0D02BEB8AE100239971 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E8CBE0D92BEB8BC200239971 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		E8CBE0E72BEBBD6C00239971 /* AuthHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHandler.swift; sourceTree = "<group>"; };
 		E8CBE0E92BEBEF2F00239971 /* KeyGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyGenerator.swift; sourceTree = "<group>"; };
 		E8F946A82BEE09CA007193D5 /* AlertPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPopUp.swift; sourceTree = "<group>"; };
 		E8F946AA2BEE0A75007193D5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		E8F946AC2BF14317007193D5 /* testFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E81841842BFE002A00F49888 /* VCIClient in Frameworks */,
+				E882ADE52BFDBD6900921968 /* VCIClient in Frameworks */,
 				E8CBE0E22BEBBD4000239971 /* AppAuth in Frameworks */,
 				E8CBE0D82BEB8B0300239971 /* VCIClient in Frameworks */,
 				E8CBE0E62BEBBD4000239971 /* AppAuthTV in Frameworks */,
@@ -80,7 +80,6 @@
 				E8CBE0C42BEB8ADF00239971 /* SceneDelegate.swift */,
 				E8CBE0C62BEB8ADF00239971 /* ViewController.swift */,
 				E8F946A82BEE09CA007193D5 /* AlertPopUp.swift */,
-				E8CBE0D92BEB8BC200239971 /* Utils.swift */,
 				E8CBE0E72BEBBD6C00239971 /* AuthHandler.swift */,
 				E8CBE0E92BEBEF2F00239971 /* KeyGenerator.swift */,
 				E8F946AA2BEE0A75007193D5 /* Constants.swift */,
@@ -88,7 +87,6 @@
 				E8CBE0CB2BEB8AE100239971 /* Assets.xcassets */,
 				E8CBE0CD2BEB8AE100239971 /* LaunchScreen.storyboard */,
 				E8CBE0D02BEB8AE100239971 /* Info.plist */,
-				E8F946AC2BF14317007193D5 /* testFile.swift */,
 			);
 			path = SwiftExample;
 			sourceTree = "<group>";
@@ -114,6 +112,8 @@
 				E8CBE0E12BEBBD4000239971 /* AppAuth */,
 				E8CBE0E32BEBBD4000239971 /* AppAuthCore */,
 				E8CBE0E52BEBBD4000239971 /* AppAuthTV */,
+				E882ADE42BFDBD6900921968 /* VCIClient */,
+				E81841832BFE002A00F49888 /* VCIClient */,
 			);
 			productName = SwiftExample;
 			productReference = E8CBE0BF2BEB8ADF00239971 /* SwiftExample.app */;
@@ -144,7 +144,6 @@
 			);
 			mainGroup = E8CBE0B62BEB8ADF00239971;
 			packageReferences = (
-				E8CBE0D62BEB8B0300239971 /* XCLocalSwiftPackageReference "../VCIClient" */,
 				E8CBE0E02BEBBD4000239971 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */,
 			);
 			productRefGroup = E8CBE0C02BEB8ADF00239971 /* Products */;
@@ -180,9 +179,7 @@
 				E8CBE0C52BEB8ADF00239971 /* SceneDelegate.swift in Sources */,
 				E8CBE0EA2BEBEF2F00239971 /* KeyGenerator.swift in Sources */,
 				E8CBE0E82BEBBD6C00239971 /* AuthHandler.swift in Sources */,
-				E8CBE0DA2BEB8BC200239971 /* Utils.swift in Sources */,
 				E8F946AB2BEE0A75007193D5 /* Constants.swift in Sources */,
-				E8F946AD2BF14317007193D5 /* testFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,13 +405,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		E8CBE0D62BEB8B0300239971 /* XCLocalSwiftPackageReference "../VCIClient" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../VCIClient;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		E8CBE0E02BEBBD4000239971 /* XCRemoteSwiftPackageReference "AppAuth-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -427,6 +417,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E81841832BFE002A00F49888 /* VCIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VCIClient;
+		};
+		E882ADE42BFDBD6900921968 /* VCIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VCIClient;
+		};
 		E8CBE0D72BEB8B0300239971 /* VCIClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = VCIClient;

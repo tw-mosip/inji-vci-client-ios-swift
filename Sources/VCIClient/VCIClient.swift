@@ -6,26 +6,19 @@ public class VCIClient {
     let traceabilityId: String
     
     public init(traceabilityId: String, networkSession: NetworkSession? = nil) {
-        self.networkSession = networkSession ?? URLSession.shared
         self.traceabilityId = traceabilityId
+        self.networkSession = networkSession ?? URLSession.shared
     }
-    
+    // TODO: remove the swift example from this and replace with the correct one
     
     public func requestCredential(
         issuerMeta: IssuerMeta,
-        accessToken: String,
-        publicKey: String
+        proof: Proof,
+        accessToken: String
     ) async throws -> CredentialResponse? {
         let logTag = Util.getLogTag(className: String(describing: type(of: self)), traceabilityId: traceabilityId)
         do {
             
-//            let proofJWT = try await JWTProof(
-//                publicKey: publicKey,
-//                issuerMeta: issuerMeta,
-// 
-//                accessToken: accessToken
-//            ).getJWT()
-            let proofJWT = ""
             guard let url = URL(string: issuerMeta.credentialEndpoint) else {
                 throw DownloadFailedError.invalidURL
             }
@@ -35,14 +28,14 @@ public class VCIClient {
                 credentialFormat: CredentialFormat.ldp_vc,
                 accessToken: accessToken,
                 issuer: issuerMeta,
-                proofJwt: proofJWT
+                proofJwt: proof
             )
             
             let (data, response) = try await networkSession.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw DownloadFailedError.noResponse
             }
-            
+
             guard httpResponse.statusCode == 200 else {
                 let statusCode = httpResponse.statusCode
                 let errorDescription = HTTPURLResponse.localizedString(forStatusCode: statusCode)
@@ -84,14 +77,6 @@ public class VCIClient {
             default:
                 throw DownloadFailedError.httpError(statusCode: nsError.code, description: nsError.localizedDescription)
             }
-        case is InvalidAccessTokenError:
-            let description = "Access token is invalid \(error)"
-            print("\(logTag) \(description)")
-            throw InvalidAccessTokenError.customError(description: description)
-        case is InvalidPublicKeyError:
-            let description = "Invalid public key passed \(error)"
-            print("\(logTag) \(description)")
-            throw InvalidPublicKeyError.customError(description: description)
         case is DownloadFailedError:
             let description = "Download failed due to \(error)"
             print("\(logTag) \(description)")

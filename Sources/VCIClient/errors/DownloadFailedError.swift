@@ -8,5 +8,5 @@ public enum DownloadFailedError: Error {
     case noResponse
     case decodingResponseFailed
     case encodingResponseFailed
-    case customError(description: String) 
+    case customError(description: String)
 }

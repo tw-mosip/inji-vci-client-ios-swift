@@ -1,9 +1,15 @@
 import Foundation
 
-struct CredentialRequestBody: Codable {
+struct CredentialRequestBody: Encodable {
     let format: CredentialFormat
     let credential_definition: CredentialDefinition
-    let proof: RequestProof
+    let proof: JWTProof
+    
+    init(format: CredentialFormat, credential_definition: CredentialDefinition, proof: JWTProof) {
+        self.format = format
+        self.credential_definition = credential_definition
+        self.proof = proof
+    }
 }
 
 struct CredentialDefinition: Codable {
@@ -20,24 +26,4 @@ struct CredentialDefinition: Codable {
         self.type = type
     }
 
-}
-struct RequestProof: Codable {
-    let proof_type: String?
-    let jwt: String
-    
-    init(proof_type: String? = ProofType.JWT.rawValue, jwt: String) {
-        self.proof_type = proof_type
-        self.jwt = jwt
-    }
-    
-    func toJson() -> String? {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        do {
-            let jsonData = try encoder.encode(self)
-            return String(data: jsonData, encoding: .utf8)
-        } catch {
-            return nil
-        }
-    }
 }

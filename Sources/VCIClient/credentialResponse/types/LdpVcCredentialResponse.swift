@@ -9,7 +9,7 @@ struct Credential: Codable , CredentialResponse{
     let issuer: String
     let issuanceDate: String
     let id: String
-    let proof: Proof
+    let proof: ProofResponse
     let credentialSubject: CredentialSubject
     let type: [String]
     let contextArray: [String]?
@@ -27,7 +27,7 @@ struct Credential: Codable , CredentialResponse{
         issuanceDate = try values.decode(String.self, forKey: .issuanceDate)
         credentialSubject = try values.decode(CredentialSubject.self, forKey: .credentialSubject)
         id = try values.decode(String.self, forKey: .id)
-        proof = try values.decode(Proof.self, forKey: .proof)
+        proof = try values.decode(ProofResponse.self, forKey: .proof)
         type = try values.decode([String].self, forKey: .type)
         contextArray = try? values.decode([String].self, forKey: .contextArray)
         contextDict = try? values.decode([String: String].self, forKey: .contextArray)
@@ -83,7 +83,7 @@ struct AddressLine1: Codable {
     let value: String
 }
 
-struct Proof: Codable {
+struct ProofResponse: Codable {
     let proofPurpose: String
     let created: String
     let jws: String

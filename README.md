@@ -22,9 +22,8 @@ Request for credential from the issuer, and receive the credential reponse back 
 | Name         | Type                               | Description                                                                                                  | Sample                                                                                                  |
 |--------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | issuerMeta   | IssuerMeta                         | struct of the issuer details like audienece, endpoint, timeout, type and format                                                                           | `IssuerMeta(credentialAudience, credentialEndpoint, downloadTimeout, credentialType, credentialFormat)` |
-| signer       | func  (JWTPayload, JWTHeader) -> String | Function which is called to get the signature passing the JWTPayload and JWTHeader | `fun signer(paylod: JWTPayload, header: JWTHeader): String {//Signing logic of vapor/jwt-kit library }`                                           |
-| accessToken  | String                             | token issued by providers based on auth code                                                                 | "" |
-| publicKeyPem | String                             | Public key in PEM format is passed from the keypair generated | 
+| proofJwt       | Proof | The proof type ProofJwt ex jwt | `JWTProof(jwt: proofJWT)`                                           |
+| accessToken  | String                             | token issued by providers based on auth code                                                                 | "" | 
 
 ###### Exceptions
 

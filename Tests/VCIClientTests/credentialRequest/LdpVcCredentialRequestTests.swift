@@ -23,10 +23,10 @@ class LdpVcCredentialRequestTests: XCTestCase {
                                 downloadTimeoutInMilliseconds: 20000,
                                 credentialType: ["VerifiableCredential"],
                                 credentialFormat: .ldp_vc)
-        let proofJWT = "ProofJWT"
+        let proofJWT = JWTProof(jwt: "ProofJWT")
         
         do {
-            let request = try credentialRequest.constructRequest(url: url, credentialFormat: CredentialFormat.ldp_vc, accessToken: accessToken, issuer: issuer, proofJwt: proofJWT)
+            let request = try credentialRequest.constructRequest(url: url, credentialFormat: .ldp_vc, accessToken: accessToken, issuer: issuer, proofJwt: proofJWT)
             XCTAssertEqual(request.url, url)
             XCTAssertEqual(request.httpMethod, "POST")
             XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
@@ -38,10 +38,8 @@ class LdpVcCredentialRequestTests: XCTestCase {
         }
     }
     
-    
-    
     func testGenerateRequestBodySuccess() {
-        let proofJWT = "xxxx.yyyy.zzzz"
+        let proofJWT = JWTProof(jwt: "xxxx.yyyy.zzzz")
         let issuer = IssuerMeta(credentialAudience: "https://domain.net",
                                 credentialEndpoint: "https://domain.net/credential",
                                 downloadTimeoutInMilliseconds: 20000,
@@ -51,17 +49,9 @@ class LdpVcCredentialRequestTests: XCTestCase {
         do {
             let jsonData = try credentialRequest.generateRequestBody(proofJWT: proofJWT, issuer: issuer)
             XCTAssertNotNil(jsonData)
-            
         } catch {
             XCTFail("Error: \(error.localizedDescription)")
         }
-    }
-
-    func testRequestProofToJsonSuccess() {
-        let proof = RequestProof(jwt: "jwtForRequestBody")
-        let jsonString = proof.toJson()
-        XCTAssertNotNil(jsonString)
-  
     }
 
     func testCredentialDefinitionInitializationSuccess() {
@@ -70,4 +60,3 @@ class LdpVcCredentialRequestTests: XCTestCase {
         XCTAssertEqual(credentialDefinition.type, ["Type"])
     }
 }
-

@@ -6,7 +6,7 @@ class LdpVcCredentialRequest{
                                 credentialFormat: CredentialFormat,
                                 accessToken: String,
                                 issuer: IssuerMeta,
-                                proofJwt: String) throws -> URLRequest{
+                                proofJwt: JWTProof) throws -> URLRequest{
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -22,14 +22,14 @@ class LdpVcCredentialRequest{
         return request
     }
     
-    func generateRequestBody(proofJWT: String, issuer: IssuerMeta) throws -> Data? {
-        let proof = RequestProof(jwt: proofJWT)
+    func generateRequestBody(proofJWT: JWTProof, issuer: IssuerMeta) throws -> Data? {
+
         let credentialDefinition = CredentialDefinition(type: issuer.credentialType)
 
         let credentialRequestBody = CredentialRequestBody(
             format: issuer.credentialFormat,
             credential_definition: credentialDefinition,
-            proof: proof
+            proof: proofJWT
         )
         
         do {

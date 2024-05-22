@@ -6,26 +6,17 @@ import PackageDescription
 let package = Package(
     name: "VCIClient",
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v9)],
+        .macOS(.v11),
+        .iOS(.v13)
+    ],
     products: [
         .library(
             name: "VCIClient",
             targets: ["VCIClient"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/auth0/JWTDecode.swift.git", from: "2.4.1"),
-        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.9.1"),
-    ],
     targets: [
         .target(
-            name: "VCIClient",
-            dependencies: [
-            .product(name: "JWTDecode", package: "JWTDecode.swift"),
-            .product(name: "Alamofire", package: "Alamofire"),
-        ]),
+            name: "VCIClient"),
         .testTarget(
             name: "VCIClientTests",
             dependencies: ["VCIClient"]),

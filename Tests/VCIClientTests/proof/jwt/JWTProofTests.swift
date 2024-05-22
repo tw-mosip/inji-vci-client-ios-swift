@@ -5,7 +5,7 @@ class JWTProofTests: XCTestCase {
     
  
     func testJWTProofInitializationSuccess() {
-        let jwtToken = "sample.jwt.token"
+        let jwtToken = "xx.xx.xxx"
         let jwtProof = JWTProof(jwt: jwtToken)
         
         XCTAssertNotNil(jwtProof)
@@ -14,7 +14,7 @@ class JWTProofTests: XCTestCase {
     }
     
     func testJWTProofEncodingToJSONSuccess() {
-        let jwtToken = "sample.jwt.token"
+        let jwtToken = "xxx.xx.xxx"
         let jwtProof = JWTProof(jwt: jwtToken)
         let encoder = JSONEncoder()
         

@@ -7,7 +7,6 @@ on:
       - develop
       - feature/**
       - hotfix/**
-      - injimob-1313-library
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
@@ -35,11 +34,11 @@ jobs:
       - name: Run tests
         run: swift test
 
-#      - name: Notify on Slack
-#        uses: rtCamp/action-slack-notify@v2
-#        with:
-#          status: ${{ job.status }}
-#          fields: repo,message,author,commit,workflow,job 
-#        env:
-#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_INJI_TEAM }}
-#        if: failure()
+      - name: Notify on Slack
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,author,commit,workflow,job 
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_INJI_TEAM }}
+        if: "${{ github.event_name != 'pull_request' && failure() }}"

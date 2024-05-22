@@ -4,32 +4,31 @@
 
 ## Installation
 - Clone the repo
-- In your swift application go to file > add package depenedecy > add the  https://github.com/tw-mosip/inji-vci-client-ios-swift.git in git search bar> add package
+- In your swift application go to file > add package dependency > add the  https://github.com/tw-mosip/inji-vci-client-ios-swift.git in git search bar> add package
 - Import the library and use
 
 ## APIs
 
 ##### Request Credential
 
-Request for credential from the issuer, and receive the credential reponse back in string.
+Request for credential from the issuer, and receive the credential response back in string.
 
 ```
-    let requestCredential = try await VCIClient().getCredential(issuerMeta: issuer, signer: signer, accessToken: accessToken, publicKey: publicKeyPEM)
+    let requestCredential = try await VCIClient().requestCredential(issuerMeta: IssuerMeta, proof: Proof, accessToken: String)
 ```
 
 ###### Parameters
 
 | Name         | Type                               | Description                                                                                                  | Sample                                                                                                  |
 |--------------|------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| issuerMeta   | IssuerMeta                         | struct of the issuer details like audienece, endpoint, timeout, type and format                                                                           | `IssuerMeta(credentialAudience, credentialEndpoint, downloadTimeout, credentialType, credentialFormat)` |
+| issuerMeta   | IssuerMeta                         | struct of the issuer details like audience, endpoint, timeout, type and format                                                                           | `IssuerMeta(credentialAudience, credentialEndpoint, downloadTimeout, credentialType, credentialFormat)` |
 | proofJwt       | Proof | The proof type ProofJwt ex jwt | `JWTProof(jwt: proofJWT)`                                           |
 | accessToken  | String                             | token issued by providers based on auth code                                                                 | "" | 
 
 ###### Exceptions
 
-1. InvalidAccessTokenException is thrown when token passed by user is invalid
-2. InvalidPublicKeyError is thrown when the public key passed is not valid or generation of key primitives fails
-3. DownloadFailedError is thrown when the credential issuer did not respond with credential response
+1. DownloadFailedError is thrown when the credential issuer did not respond with credential response
+2. NetworkRequestTimeOutError is thrown when the request is timedout
 
 
 ## More details

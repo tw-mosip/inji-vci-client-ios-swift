@@ -49,7 +49,6 @@ public class VCIClient {
                     formatType: issuerMeta.credentialFormat,
                     response: data
                 )
-                let credentialResponseString = try credentialResponse?.toJSONString()
                 print(logTag, "credential downloaded successfully!")
                 return credentialResponse
             } else {

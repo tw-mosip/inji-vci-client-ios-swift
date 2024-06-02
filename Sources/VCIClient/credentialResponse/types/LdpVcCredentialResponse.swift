@@ -1,9 +1,76 @@
 import Foundation
 
-struct VC: Codable, CredentialResponse{
-    let format: String
-    let credential: Credential
-    
+struct AnyCodable: Codable {
+    var value: Any
+
+    init(_ value: Any) {
+        self.value = value
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let int = try? container.decode(Int.self) {
+            value = int
+        } else if let double = try? container.decode(Double.self) {
+            value = double
+        } else if let string = try? container.decode(String.self) {
+            value = string
+        } else if let bool = try? container.decode(Bool.self) {
+            value = bool
+        } else if let nestedDict = try? container.decode([String: AnyCodable].self) {
+            value = nestedDict.mapValues { $0.value }
+        } else if let nestedArray = try? container.decode([AnyCodable].self) {
+            value = nestedArray.map { $0.value }
+        } else if container.decodeNil() {
+            value = Optional<Any>.none as Any
+        } else {
+            throw DownloadFailedError.decodingResponseFailed
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        if let int = value as? Int {
+            try container.encode(int)
+        } else if let double = value as? Double {
+            try container.encode(double)
+        } else if let string = value as? String {
+            try container.encode(string)
+        } else if let bool = value as? Bool {
+            try container.encode(bool)
+        } else if let nestedDict = value as? [String: Any] {
+            try container.encode(nestedDict.mapValues { AnyCodable($0) })
+        } else if let nestedArray = value as? [Any] {
+            try container.encode(nestedArray.map { AnyCodable($0) })
+        } else if value is Optional<Any> {
+            try container.encodeNil()
+        } else {
+            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: container.codingPath, debugDescription: "Unable to encode value"))
+        }
+    }
+}
+
+struct VC: Codable, CredentialResponse {
+    var format: String
+    var credential: [String: AnyCodable]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        format = try container.decode(String.self, forKey: .format)
+        credential = try container.decode([String: AnyCodable].self, forKey: .credential)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(format, forKey: .format)
+        try container.encode(credential, forKey: .credential)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case format
+        case credential
+    }
+
     func toJSONString() throws -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -14,128 +81,3 @@ struct VC: Codable, CredentialResponse{
         return jsonString
     }
 }
-
-
-struct Credential: Codable , CredentialResponse{
-    let issuanceDate: String
-    let credentialSubject: CredentialSubject
-    let id: String
-    let proof: ProofResponse
-    let type: [String]
-    let context: [ContextType]?
-    let issuer: String
-    
-    enum CodingKeys: String, CodingKey {
-        case issuanceDate, credentialSubject, id, proof, type
-        case context = "@context"
-        case issuer
-    }
-    
-    func toJSONString() throws -> String {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        let data = try encoder.encode(self)
-        guard let jsonString = String(data: data, encoding: .utf8) else {
-        throw DownloadFailedError.encodingResponseFailed
-        }
-    return jsonString
-    }
-    
-    init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            issuanceDate = try container.decode(String.self, forKey: .issuanceDate)
-            credentialSubject = try container.decode(CredentialSubject.self, forKey: .credentialSubject)
-            id = try container.decode(String.self, forKey: .id)
-            proof = try container.decode(ProofResponse.self, forKey: .proof)
-            type = try container.decode([String].self, forKey: .type)
-            context = try container.decodeIfPresent([ContextType].self, forKey: .context)
-            issuer = try container.decode(String.self, forKey: .issuer)
-        }
-        
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(issuanceDate, forKey: .issuanceDate)
-            try container.encode(credentialSubject, forKey: .credentialSubject)
-            try container.encode(id, forKey: .id)
-            try container.encode(proof, forKey: .proof)
-            try container.encode(type, forKey: .type)
-            try container.encode(context, forKey: .context)
-            try container.encode(issuer, forKey: .issuer)
-        }
-}
-
-enum ContextType: Codable {
-    case string(String)
-    case dictionary([String: String])
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let string = try? container.decode(String.self) {
-            self = .string(string)
-        } else if let dictionary = try? container.decode([String: String].self) {
-            self = .dictionary(dictionary)
-        } else {
-            throw DownloadFailedError.encodingResponseFailed
-        }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-            case .string(let value):
-                try container.encode(value)
-            case .dictionary(let value):
-                try container.encode(value)
-        }
-    }
-}
-
-struct CredentialSubject: Codable {
-    let gender: [Gender]
-    let phone: String
-    let city: [City]
-    let id: String
-    let dateOfBirth: String
-    let fullName: [FullName]
-    let face: String
-    let addressLine1: [AddressLine1]
-    let email: String
-    let UIN: String
-    
-    
-    enum CodingKeys: String, CodingKey {
-        case face, gender, phone, city, fullName, addressLine1, dateOfBirth, id, UIN, email
-    }
-}
-
-struct Gender: Codable {
-    let language: String
-    let value: String
-}
-
-struct City: Codable {
-    let language: String
-    let value: String
-}
-
-struct FullName: Codable {
-    let language: String
-    let value: String
-}
-
-struct AddressLine1: Codable {
-    let language: String
-    let value: String
-}
-
-struct ProofResponse: Codable {
-    let proofPurpose: String
-    let created: String
-    let jws: String
-    let verificationMethod: String
-    let type: String
-    enum CodingKeys: String, CodingKey {
-        case type, created, proofPurpose, verificationMethod, jws
-    }
-}
-

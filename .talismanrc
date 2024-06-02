@@ -48,5 +48,5 @@ fileignoreconfig:
 - filename: SwiftExample/SwiftExample/ViewController.swift
   checksum: 69292c31ea3522763f54324b7e320c968be252aa595e81cf31ecc20f479a9a79
 - filename: Sources/VCIClient/credentialResponse/types/LdpVcCredentialResponse.swift
-  checksum: 42f899017a35d201f21059a2227d34d8762d5a6a4069e0f8dda30eb6c3f58d21
+  checksum: d32fd6ae865bedac6bc0f09e05da930deb05351121daa217efb01e5db6ba88fe
 version: ""

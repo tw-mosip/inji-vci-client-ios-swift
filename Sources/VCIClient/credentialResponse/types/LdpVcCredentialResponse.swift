@@ -45,7 +45,7 @@ struct AnyCodable: Codable {
         } else if value is Optional<Any> {
             try container.encodeNil()
         } else {
-            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: container.codingPath, debugDescription: "Unable to encode value"))
+            throw DownloadFailedError.encodingResponseFailed
         }
     }
 }

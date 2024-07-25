@@ -24,7 +24,7 @@ class LdpVcCredentialRequest{
     
     func generateRequestBody(proofJWT: JWTProof, issuer: IssuerMeta) throws -> Data? {
 
-        let credentialDefinition = CredentialDefinition(type: issuer.credentialType)
+        let credentialDefinition = CredentialDefinition(type: issuer.credentialType ?? [])
 
         let credentialRequestBody = CredentialRequestBody(
             format: issuer.credentialFormat,

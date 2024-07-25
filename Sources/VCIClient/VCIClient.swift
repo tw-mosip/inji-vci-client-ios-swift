@@ -4,10 +4,14 @@ public class VCIClient {
     
     let networkSession: NetworkSession
     let traceabilityId: String
+    let credentialRequestFactory: CredentialRequestFactoryProtocol
     
-    public init(traceabilityId: String, networkSession: NetworkSession? = nil) {
+    public init(traceabilityId: String,
+                networkSession: NetworkSession? = nil, 
+                credentialRequestFactory: CredentialRequestFactoryProtocol? = nil ) {
         self.traceabilityId = traceabilityId
         self.networkSession = networkSession ?? URLSession.shared
+        self.credentialRequestFactory = credentialRequestFactory ?? CredentialRequestFactory.shared
     }
     
     public func requestCredential(
@@ -18,13 +22,15 @@ public class VCIClient {
         let logTag = Util.getLogTag(className: String(describing: type(of: self)), traceabilityId: traceabilityId)
         do {
             
+            print("Issuer meta >>>>>>>>>>>>>> ")
+            print(issuerMeta)
             guard let url = URL(string: issuerMeta.credentialEndpoint) else {
                 throw DownloadFailedError.invalidURL
             }
             
-            let request = CredentialRequestfactory.createCredentialRequest(
+            let request = try credentialRequestFactory.createCredentialRequest(
                 url: url,
-                credentialFormat: CredentialFormat.ldp_vc,
+                credentialFormat: issuerMeta.credentialFormat,
                 accessToken: accessToken,
                 issuer: issuerMeta,
                 proofJwt: proof

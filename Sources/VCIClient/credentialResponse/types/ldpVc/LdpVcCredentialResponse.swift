@@ -1,6 +1,10 @@
 import Foundation
 
-struct AnyCodable: Codable {
+struct AnyCodable: Codable, CredentialResponse {
+    func toJSONString() throws -> String {
+        return "respnse"
+    }
+    
     var value: Any
 
     init(_ value: Any) {

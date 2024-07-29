@@ -2,7 +2,7 @@ import Foundation
 
 struct AnyCodable: Codable, CredentialResponse {
     func toJSONString() throws -> String {
-        return "respnse"
+        return "response"
     }
     
     var value: Any

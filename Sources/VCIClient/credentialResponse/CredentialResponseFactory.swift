@@ -11,7 +11,7 @@ extension CredentialResponseFactoryProtocol{
         case .ldp_vc:
             return try LdpVcCredentialResponseFactory().constructResponse(response: response)
         case .mso_mdoc:
-            return try LdpVcCredentialResponseFactory().constructResponse(response: response)
+            return try MsoMdocCredentialResponseFactory().constructResponse(response: response)
         }
     }
 }

@@ -22,8 +22,6 @@ public class VCIClient {
         let logTag = Util.getLogTag(className: String(describing: type(of: self)), traceabilityId: traceabilityId)
         do {
             
-            print("Issuer meta >>>>>>>>>>>>>> ")
-            print(issuerMeta)
             guard let url = URL(string: issuerMeta.credentialEndpoint) else {
                 throw DownloadFailedError.invalidURL
             }

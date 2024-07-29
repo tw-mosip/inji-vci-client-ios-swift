@@ -1,7 +1,7 @@
 import Foundation
 
-class CborVcCredentialResponseFactory: CredentialResponseFactoryProtocol {
-
+class MsoMdocCredentialResponseFactory: CredentialResponseFactoryProtocol {
+    
     func constructResponse(response: Data) throws -> CredentialResponse? {
         do{
             let vc = try JSONDecoder().decode(AnyCodable.self, from: response)

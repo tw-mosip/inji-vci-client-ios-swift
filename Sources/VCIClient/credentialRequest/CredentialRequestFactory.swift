@@ -25,7 +25,7 @@ class CredentialRequestFactory: CredentialRequestFactoryProtocol{
                                                                  issuer: issuer,
                                                                  proofJwt: proofJwt as? JWTProof ?? JWTProof(jwt: ""))
         case .mso_mdoc:
-            return try LdpVcCredentialRequest().constructRequest(url: url,
+            return try MsoMdocVcCredentialRequest().constructRequest(url: url,
                                                                  credentialFormat: credentialFormat,
                                                                  accessToken: accessToken,
                                                                  issuer: issuer,

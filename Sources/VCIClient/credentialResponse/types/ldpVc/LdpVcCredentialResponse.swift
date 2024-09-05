@@ -6,11 +6,11 @@ struct AnyCodable: Codable, CredentialResponse {
     }
     
     var value: Any
-
+    
     init(_ value: Any) {
         self.value = value
     }
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let int = try? container.decode(Int.self) {
@@ -31,7 +31,7 @@ struct AnyCodable: Codable, CredentialResponse {
             throw DownloadFailedError.decodingResponseFailed
         }
     }
-
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         if let int = value as? Int {
@@ -55,26 +55,23 @@ struct AnyCodable: Codable, CredentialResponse {
 }
 
 struct VC: Codable, CredentialResponse {
-    var format: String
     var credential: [String: AnyCodable]
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        format = try container.decode(String.self, forKey: .format)
         credential = try container.decode([String: AnyCodable].self, forKey: .credential)
     }
-
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(format, forKey: .format)
         try container.encode(credential, forKey: .credential)
     }
-
+    
     enum CodingKeys: String, CodingKey {
         case format
         case credential
     }
-
+    
     func toJSONString() throws -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

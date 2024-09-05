@@ -2,7 +2,6 @@ import Foundation
 
 protocol CredentialResponseFactoryProtocol {
     static func createCredentialResponse(formatType: CredentialFormat, response: Data) throws -> CredentialResponse?
-    func constructResponse(response: Data) throws -> CredentialResponse?
 }
 
 extension CredentialResponseFactoryProtocol{
@@ -17,7 +16,5 @@ extension CredentialResponseFactoryProtocol{
 }
 
 class CredentialResponseFactory: CredentialResponseFactoryProtocol{
-    func constructResponse(response: Data) -> CredentialResponse? {
-        return nil
-    }
+    
 }

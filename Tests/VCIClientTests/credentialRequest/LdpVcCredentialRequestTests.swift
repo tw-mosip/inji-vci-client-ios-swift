@@ -4,10 +4,18 @@ import XCTest
 class LdpVcCredentialRequestTests: XCTestCase {
     
     var credentialRequest: LdpVcCredentialRequest!
+    let url = URL(string: "https://domain.net/credential")!
+    let accessToken = "AccessToken"
+    let issuer = IssuerMeta(credentialAudience: "https://domain.net",
+                            credentialEndpoint: "https://domain.net/credential",
+                            downloadTimeoutInMilliseconds: 20000,
+                            credentialType: ["VerifiableCredential"],
+                            credentialFormat: .ldp_vc)
+    let proofJWT = JWTProof(jwt: "ProofJWT")
     
     override func setUp() {
         super.setUp()
-        credentialRequest = LdpVcCredentialRequest()
+        credentialRequest = LdpVcCredentialRequest(accessToken: accessToken, issuerMetaData: issuer, proof: proofJWT)
     }
     
     override func tearDown() {
@@ -16,17 +24,10 @@ class LdpVcCredentialRequestTests: XCTestCase {
     }
     
     func testConstructRequestSuccess() {
-        let url = URL(string: "https://example.com")!
-        let accessToken = "AccessToken"
-        let issuer = IssuerMeta(credentialAudience: "https://domain.net",
-                                credentialEndpoint: "https://domain.net/credential",
-                                downloadTimeoutInMilliseconds: 20000,
-                                credentialType: ["VerifiableCredential"],
-                                credentialFormat: .ldp_vc)
-        let proofJWT = JWTProof(jwt: "ProofJWT")
+        
         
         do {
-            let request = try credentialRequest.constructRequest(url: url, credentialFormat: .ldp_vc, accessToken: accessToken, issuer: issuer, proofJwt: proofJWT)
+            let request = try credentialRequest.constructRequest()
             XCTAssertEqual(request.url, url)
             XCTAssertEqual(request.httpMethod, "POST")
             XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"], "application/json")
@@ -58,5 +59,25 @@ class LdpVcCredentialRequestTests: XCTestCase {
         let credentialDefinition = CredentialDefinition(type: ["Type"])
         XCTAssertEqual(credentialDefinition.context, ["https://www.w3.org/2018/credentials/v1"])
         XCTAssertEqual(credentialDefinition.type, ["Type"])
+    }
+    
+    func testshouldReturnValidatorResultWithIsValidatedAsTrueWhenRequiredIssuerMetadataDetailsOfLdpVcAreAvailable() {
+        let validationResult = credentialRequest.validateIssuerMetadata()
+        
+        XCTAssertTrue(validationResult.isValidated)
+        XCTAssert(validationResult.invalidFields.count==0)
+    }
+    
+    func testshouldReturnValidatorResultWithIsValidatedAsFalseWithInvalidFieldsWhenRequiredCredentialTypeIsNotAvailableInIssuerMetadata() {
+        let issuerMetadataWithoutCredentialType = IssuerMeta(credentialAudience: "https://domain.net",
+                                credentialEndpoint: "https://domain.net/credential",
+                                downloadTimeoutInMilliseconds: 20000,
+                                credentialFormat: .mso_mdoc)
+        credentialRequest = LdpVcCredentialRequest(accessToken: accessToken, issuerMetaData: issuerMetadataWithoutCredentialType, proof: proofJWT)
+        
+        let validationResult = credentialRequest.validateIssuerMetadata()
+        
+        XCTAssertFalse(validationResult.isValidated)
+        XCTAssert(validationResult.invalidFields.elementsEqual(["credentialType"]))
     }
 }

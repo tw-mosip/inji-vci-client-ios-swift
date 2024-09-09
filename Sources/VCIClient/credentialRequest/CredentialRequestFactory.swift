@@ -6,8 +6,6 @@ public protocol CredentialRequestFactoryProtocol{
                                  accessToken: String,
                                  issuer: IssuerMeta,
                                  proofJwt: Proof) throws -> URLRequest
-    
-    func validateIssuerMeta(issuer: IssuerMeta) -> Bool
 }
 
 class CredentialRequestFactory: CredentialRequestFactoryProtocol{
@@ -19,26 +17,24 @@ class CredentialRequestFactory: CredentialRequestFactoryProtocol{
                                  proofJwt: Proof) throws -> URLRequest {
         switch credentialFormat{
         case .ldp_vc:
-            return try LdpVcCredentialRequest().constructRequest(url: url,
-                                                                 credentialFormat: credentialFormat,
-                                                                 accessToken: accessToken,
-                                                                 issuer: issuer,
-                                                                 proofJwt: proofJwt as? JWTProof ?? JWTProof(jwt: ""))
+            return try validateAndConstructCredentialRequest(credentialRequest: LdpVcCredentialRequest(
+                accessToken: accessToken,
+                issuerMetaData: issuer,
+                proof:  proofJwt as? JWTProof ?? JWTProof(jwt: "")))
         case .mso_mdoc:
-            return try MsoMdocVcCredentialRequest().constructRequest(url: url,
-                                                                 credentialFormat: credentialFormat,
-                                                                 accessToken: accessToken,
-                                                                 issuer: issuer,
-                                                                 proofJwt: proofJwt as? JWTProof ?? JWTProof(jwt: ""))
+            return try validateAndConstructCredentialRequest(credentialRequest: MsoMdocVcCredentialRequest(accessToken: accessToken,
+                                                                                                           issuerMetaData: issuer,
+                                                                                                           proof:  proofJwt as? JWTProof ?? JWTProof(jwt: "")))
             
         }
     }
     
-    func validateIssuerMeta(issuer: IssuerMeta) -> Bool {
-        switch issuer.credentialFormat{
-        case .ldp_vc: return issuer.credentialType != nil
-        case .mso_mdoc: return (issuer.claims != nil && issuer.docType != nil)
-            
+    
+    func validateAndConstructCredentialRequest(credentialRequest: CredentialRequestProtocol) throws -> URLRequest{
+        let issuerMetadataValidatorResult = credentialRequest.validateIssuerMetadata()
+        if(issuerMetadataValidatorResult.isValidated){
+            return try credentialRequest.constructRequest()
         }
+        throw DownloadFailedError.invalidDataProvidedException(invalidFields: issuerMetadataValidatorResult.invalidFields.joined())
     }
 }

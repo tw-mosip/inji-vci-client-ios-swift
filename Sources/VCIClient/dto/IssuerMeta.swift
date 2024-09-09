@@ -12,7 +12,7 @@ public struct IssuerMeta {
     public init(credentialAudience: String ,
                 credentialEndpoint: String,
                 downloadTimeoutInMilliseconds: Int,
-                credentialType: [String], 
+                credentialType: [String]? = nil,
                 credentialFormat: CredentialFormat,
                 docType: String? = nil,
                 claims: [String: Any]? = nil) {

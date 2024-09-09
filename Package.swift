@@ -14,11 +14,16 @@ let package = Package(
             name: "VCIClient",
             targets: ["VCIClient"]),
     ],
+    dependencies: [
+    .package(url: "https://github.com/valpackett/SwiftCBOR", branch: "master")
+    ],
     targets: [
         .target(
-            name: "VCIClient"),
+            name: "VCIClient",
+            dependencies: ["SwiftCBOR"]
+        ),
         .testTarget(
             name: "VCIClientTests",
-            dependencies: ["VCIClient"]),
+            dependencies: ["VCIClient","SwiftCBOR"]),
     ]
 )

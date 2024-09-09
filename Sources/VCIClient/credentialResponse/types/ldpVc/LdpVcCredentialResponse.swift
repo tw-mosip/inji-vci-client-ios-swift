@@ -1,17 +1,13 @@
 import Foundation
 
-struct AnyCodable: Codable, CredentialResponse {
-    func toJSONString() throws -> String {
-        return "response"
-    }
-    
+public struct AnyCodable: Codable {
     var value: Any
     
     init(_ value: Any) {
         self.value = value
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let int = try? container.decode(Int.self) {
             value = int
@@ -28,11 +24,12 @@ struct AnyCodable: Codable, CredentialResponse {
         } else if container.decodeNil() {
             value = Optional<Any>.none as Any
         } else {
+            print("Error occured while decoding response")
             throw DownloadFailedError.decodingResponseFailed
         }
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         if let int = value as? Int {
             try container.encode(int)
@@ -49,6 +46,7 @@ struct AnyCodable: Codable, CredentialResponse {
         } else if value is Optional<Any> {
             try container.encodeNil()
         } else {
+            print("Error occured while encoding response")
             throw DownloadFailedError.encodingResponseFailed
         }
     }

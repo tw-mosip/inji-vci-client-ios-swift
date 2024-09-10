@@ -16,12 +16,10 @@ class MsoMdocVcCredentialRequest:CredentialRequestProtocol {
     func validateIssuerMetadata() -> ValidatorResult {
         var validatorResult =  ValidatorResult()
         if(self.issuerMetaData.docType.isBlank()){
-            validatorResult.setIsInvalid();
             validatorResult.addInvalidField("docType")
         }
         print("data claims \(self.issuerMetaData.claims?.values.count)")
         if(self.issuerMetaData.claims==nil || self.issuerMetaData.claims?.values.count == 0){
-            validatorResult.setIsInvalid()
             validatorResult.addInvalidField("claims")
         }
         return validatorResult

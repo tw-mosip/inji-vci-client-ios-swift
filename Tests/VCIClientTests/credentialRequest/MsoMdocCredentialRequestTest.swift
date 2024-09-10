@@ -46,16 +46,16 @@ final class MsoMdocCredentialRequestTest: XCTestCase {
         }
     }
     
-    func testshouldReturnValidatorResultWithIsValidatedAsTrueWhenRequiredIssuerMetadataDetailsOfMsoMdocVcAreAvailable() {
+    func testshouldReturnValidatorResultWithIsValidAsTrueWhenRequiredIssuerMetadataDetailsOfMsoMdocVcAreAvailable() {
         credentialRequest = MsoMdocVcCredentialRequest(accessToken: accessToken, issuerMetaData: issuer, proof: proofJWT)
         
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertTrue(validationResult.isValidated)
+        XCTAssertTrue(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.count==0)
     }
     
-    func testshouldReturnValidatorResultWithIsValidatedAsFalseWithInvalidFieldsWhenRequiredDocTypeIsNotAvailableInIssuerMetadata() {
+    func testshouldReturnValidatorResultWithIsValidAsFalseWithInvalidFieldsWhenRequiredDocTypeIsNotAvailableInIssuerMetadata() {
         let issuerMetadataWithoutDocType = IssuerMeta(credentialAudience: "https://domain.net",
                                 credentialEndpoint: "https://domain.net/credential",
                                 downloadTimeoutInMilliseconds: 20000,
@@ -65,11 +65,11 @@ final class MsoMdocCredentialRequestTest: XCTestCase {
         
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertFalse(validationResult.isValidated)
+        XCTAssertFalse(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.elementsEqual(["docType"]))
     }
 
-    func testshouldReturnValidatorResultWithIsValidatedAsFalseWithInvalidFieldsWhenRequiredClaimsIsNotAvailableInIssuerMetadata() {
+    func testshouldReturnValidatorResultWithIsValidAsFalseWithInvalidFieldsWhenRequiredClaimsIsNotAvailableInIssuerMetadata() {
         let issuerMetadataWithoutDocType = IssuerMeta(credentialAudience: "https://domain.net",
                                 credentialEndpoint: "https://domain.net/credential",
                                 downloadTimeoutInMilliseconds: 20000,
@@ -79,11 +79,11 @@ final class MsoMdocCredentialRequestTest: XCTestCase {
         
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertFalse(validationResult.isValidated)
+        XCTAssertFalse(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.elementsEqual(["claims"]))
     }
     
-    func testshouldReturnValidatorResultWithIsValidatedAsFalseWithInvalidFieldsWhenRequiredDocTypeAndClaimsAreNotAvailableInIssuerMetadata() {
+    func testshouldReturnValidatorResultWithIsValidAsFalseWithInvalidFieldsWhenRequiredDocTypeAndClaimsAreNotAvailableInIssuerMetadata() {
         let issuerMetadataWithoutDocType = IssuerMeta(credentialAudience: "https://domain.net",
                                 credentialEndpoint: "https://domain.net/credential",
                                 downloadTimeoutInMilliseconds: 20000,
@@ -93,7 +93,7 @@ final class MsoMdocCredentialRequestTest: XCTestCase {
         
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertFalse(validationResult.isValidated)
+        XCTAssertFalse(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.elementsEqual(["docType","claims"]))
         
     }

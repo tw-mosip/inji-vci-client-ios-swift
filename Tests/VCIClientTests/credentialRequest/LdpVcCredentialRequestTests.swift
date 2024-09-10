@@ -61,14 +61,14 @@ class LdpVcCredentialRequestTests: XCTestCase {
         XCTAssertEqual(credentialDefinition.type, ["Type"])
     }
     
-    func testshouldReturnValidatorResultWithIsValidatedAsTrueWhenRequiredIssuerMetadataDetailsOfLdpVcAreAvailable() {
+    func testshouldReturnValidatorResultWithIsValidAsTrueWhenRequiredIssuerMetadataDetailsOfLdpVcAreAvailable() {
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertTrue(validationResult.isValidated)
+        XCTAssertTrue(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.count==0)
     }
     
-    func testshouldReturnValidatorResultWithIsValidatedAsFalseWithInvalidFieldsWhenRequiredCredentialTypeIsNotAvailableInIssuerMetadata() {
+    func testshouldReturnValidatorResultWithIsValidAsFalseWithInvalidFieldsWhenRequiredCredentialTypeIsNotAvailableInIssuerMetadata() {
         let issuerMetadataWithoutCredentialType = IssuerMeta(credentialAudience: "https://domain.net",
                                 credentialEndpoint: "https://domain.net/credential",
                                 downloadTimeoutInMilliseconds: 20000,
@@ -77,7 +77,7 @@ class LdpVcCredentialRequestTests: XCTestCase {
         
         let validationResult = credentialRequest.validateIssuerMetadata()
         
-        XCTAssertFalse(validationResult.isValidated)
+        XCTAssertFalse(validationResult.isValid)
         XCTAssert(validationResult.invalidFields.elementsEqual(["credentialType"]))
     }
 }

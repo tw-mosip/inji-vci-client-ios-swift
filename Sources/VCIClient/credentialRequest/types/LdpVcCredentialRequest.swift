@@ -13,7 +13,6 @@ let proof: JWTProof
     func validateIssuerMetadata() -> ValidatorResult {
         let validatorResult =  ValidatorResult()
         if(self.issuerMetaData.credentialType == nil || self.issuerMetaData.credentialType?.count == 0){
-            validatorResult.setIsInvalid();
             validatorResult.addInvalidField("credentialType")
             
         }

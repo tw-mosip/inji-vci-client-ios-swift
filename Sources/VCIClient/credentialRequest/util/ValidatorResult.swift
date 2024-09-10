@@ -8,18 +8,15 @@
 import Foundation
 
 public class ValidatorResult {
-    var isValidated: Bool = true
+    var isValid: Bool = true
     var invalidFields: [String] = []
     
-    init(isValidated: Bool = true) {
-        self.isValidated = isValidated
+    init(isValid: Bool = true) {
+        self.isValid = isValid
     }
 
     func addInvalidField(_ invalidField: String) {
+        self.isValid = false
         self.invalidFields.append(invalidField)
-    }
-
-    func setIsInvalid() {
-        self.isValidated = false
     }
 }

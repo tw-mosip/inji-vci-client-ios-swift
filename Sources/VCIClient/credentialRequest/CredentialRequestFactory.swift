@@ -32,7 +32,7 @@ class CredentialRequestFactory: CredentialRequestFactoryProtocol{
     
     func validateAndConstructCredentialRequest(credentialRequest: CredentialRequestProtocol) throws -> URLRequest{
         let issuerMetadataValidatorResult = credentialRequest.validateIssuerMetadata()
-        if(issuerMetadataValidatorResult.isValidated){
+        if(issuerMetadataValidatorResult.isValid){
             return try credentialRequest.constructRequest()
         }
         throw DownloadFailedError.invalidDataProvidedException(invalidFields: issuerMetadataValidatorResult.invalidFields.joined())

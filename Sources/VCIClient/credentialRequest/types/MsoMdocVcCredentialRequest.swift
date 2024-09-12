@@ -14,11 +14,10 @@ class MsoMdocVcCredentialRequest:CredentialRequestProtocol {
         }
     
     func validateIssuerMetadata() -> ValidatorResult {
-        var validatorResult =  ValidatorResult()
+        let validatorResult =  ValidatorResult()
         if(self.issuerMetaData.docType.isBlank()){
             validatorResult.addInvalidField("docType")
         }
-        print("data claims \(self.issuerMetaData.claims?.values.count)")
         if(self.issuerMetaData.claims==nil || self.issuerMetaData.claims?.values.count == 0){
             validatorResult.addInvalidField("claims")
         }
@@ -42,6 +41,7 @@ class MsoMdocVcCredentialRequest:CredentialRequestProtocol {
     }
     
     private func generateRequestBody() throws -> Data? {
+        let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         let credentialRequestBody = MsoMdocCredentialRequestBody(format: self.issuerMetaData.credentialFormat, doctype: self.issuerMetaData.docType!, claims: Util.convertToAnyCodable(dict: self.issuerMetaData.claims!), proof: self.proof as JWTProof
         )
         
@@ -49,7 +49,7 @@ class MsoMdocVcCredentialRequest:CredentialRequestProtocol {
             let jsonData = try JSONEncoder().encode(credentialRequestBody)
             return jsonData
         } catch let error {
-            print("Error occured while constructing request body \(error.localizedDescription)")
+            print(logTag,"Error occured while constructing request body \(error.localizedDescription)")
             throw DownloadFailedError.requestBodyEncodingFailed
         }
     }

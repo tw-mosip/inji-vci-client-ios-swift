@@ -1,10 +1,3 @@
-//
-//  ValidatorResult.swift
-//
-//
-//  Created by Kiruthika Jeyashankar on 08/09/24.
-//
-
 import Foundation
 
 public class ValidatorResult {

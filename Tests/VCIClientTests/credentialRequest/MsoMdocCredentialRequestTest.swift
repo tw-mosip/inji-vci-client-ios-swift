@@ -1,10 +1,3 @@
-//
-//  MsoMdocCredentialRequestTest.swift
-//  
-//
-//  Created by Kiruthika Jeyashankar on 08/09/24.
-//
-
 import XCTest
 @testable import VCIClient
 

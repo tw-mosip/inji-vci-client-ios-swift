@@ -1,10 +1,3 @@
-//
-//  File.swift
-//
-//
-//  Created by Kiruthika Jeyashankar on 28/08/24.
-//
-
 import Foundation
 import SwiftCBOR
 
@@ -12,8 +5,9 @@ public class CborLibrayUtils{
     public init() {}
     
     public func decodeAndParseMdoc(base64EncodedString: String) throws -> [String:Any]{
+        let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         guard let decodedBase64Data = Data(base64EncodedURLSafe: base64EncodedString) else {
-            print("Invalid base64 URL string provided")
+            print(logTag,"Invalid base64 URL string provided")
             throw DownloadFailedError.customError(description: "Error while base64 url decoding the credential response")
         }
         
@@ -101,6 +95,6 @@ public class CborLibrayUtils{
             return uInt64
         }
         
-        return "dummy"
+        return ""
     }
 }

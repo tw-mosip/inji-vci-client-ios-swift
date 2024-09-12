@@ -29,7 +29,6 @@ class CredentialRequestFactory: CredentialRequestFactoryProtocol{
         }
     }
     
-    
     func validateAndConstructCredentialRequest(credentialRequest: CredentialRequestProtocol) throws -> URLRequest{
         let issuerMetadataValidatorResult = credentialRequest.validateIssuerMetadata()
         if(issuerMetadataValidatorResult.isValid){

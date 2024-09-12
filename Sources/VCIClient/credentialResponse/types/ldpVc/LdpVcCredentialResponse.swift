@@ -8,6 +8,7 @@ public struct AnyCodable: Codable {
     }
     
     public init(from decoder: Decoder) throws {
+        let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         let container = try decoder.singleValueContainer()
         if let int = try? container.decode(Int.self) {
             value = int
@@ -24,12 +25,13 @@ public struct AnyCodable: Codable {
         } else if container.decodeNil() {
             value = Optional<Any>.none as Any
         } else {
-            print("Error occured while decoding response")
+            print(logTag,"Error occured while decoding response")
             throw DownloadFailedError.decodingResponseFailed
         }
     }
     
     public func encode(to encoder: Encoder) throws {
+        let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         var container = encoder.singleValueContainer()
         if let int = value as? Int {
             try container.encode(int)
@@ -46,7 +48,7 @@ public struct AnyCodable: Codable {
         } else if value is Optional<Any> {
             try container.encodeNil()
         } else {
-            print("Error occured while encoding response")
+            print(logTag,"Error occured while encoding response")
             throw DownloadFailedError.encodingResponseFailed
         }
     }

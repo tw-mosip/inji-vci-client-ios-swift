@@ -2,6 +2,7 @@ import Foundation
 
 class MsoMdocCredentialResponseFactory: CredentialResponseFactoryProtocol {
     func constructResponse(response: Data) throws -> CredentialResponse? {
+        let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         do{
             let decodedCredentialResponse = try JSONDecoder().decode(MsoMdocVcResponse.self, from: response)
             let result = try? CborLibrayUtils().decodeAndParseMdoc(base64EncodedString: decodedCredentialResponse.credential)
@@ -10,14 +11,14 @@ class MsoMdocCredentialResponseFactory: CredentialResponseFactoryProtocol {
             return vc
         }
         catch{
-            print("catch of main block")
+            print(logTag,"error occurred while parsing mso_mdoc data")
             throw DownloadFailedError.decodingResponseFailed
         }
     }
 }
 
 
-struct MsoMdocVcResponse : Codable {
+internal struct MsoMdocVcResponse : Codable {
     var credential: String
     
     init(from decoder: Decoder) throws {

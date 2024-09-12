@@ -1,9 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Kiruthika Jeyashankar on 22/08/24.
-//
 import XCTest
 @testable import VCIClient
 

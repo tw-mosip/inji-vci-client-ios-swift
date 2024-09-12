@@ -19,9 +19,4 @@ class Util {
         
         return result
     }
-    
-    static func convertToAnyCodable(string: Any) -> AnyCodable {
-        return AnyCodable(string)
-    }
-
 }

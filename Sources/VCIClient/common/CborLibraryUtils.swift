@@ -12,7 +12,14 @@ public class CborLibrayUtils{
         }
         
         let inputToCBORDecode = Array(decodedBase64Data)
-        let decodedCBORData = try! CBOR.decode(inputToCBORDecode)! as CBOR
+        let decodedCBORData: CBOR
+        do{
+            decodedCBORData = try CBOR.decode(inputToCBORDecode)! as CBOR
+        } catch let error {
+            print(logTag,"Error while decoding the CBOR data - \(error.localizedDescription)")
+            throw DownloadFailedError.customError(description: "Error while decoding the CBOR data \(error.localizedDescription)")
+        }
+        
         var jsonResult = [String: Any]()
         
         if case .map(let myCbor) = decodedCBORData {
@@ -27,74 +34,56 @@ public class CborLibrayUtils{
     }
     
     func parse(cborData:CBOR) -> Any {
-        if case .tagged(_, let taggedValue) = cborData{
-            
-            return parse(cborData: taggedValue)
-        }
-        if case .array(let myCbor) = cborData {
-
-            var cborArray: Array<Any> = Array()
-            for cborElement in myCbor {
-                let parsed = parse(cborData: cborElement)
-                cborArray.append(parsed)
-            }
-            return cborArray
-        }
-        if case .map(let myCbor) = cborData {
-            var cborMap: [String: Any] = [:]
-            for (key,value) in myCbor {
-                let parsed = parse(cborData: value)
-                
-                let extractedKey: Any = parse(cborData: key)
-                
-                cborMap["\(extractedKey)"] = parsed
-            }
-            return cborMap
-        }
-        if case .boolean(let myCbor) = cborData {
-            return myCbor
-        }
-        if case .byteString(let myCbor) = cborData {
-            do {
-                let decodedCBORIn = try CBOR.decode(myCbor)
-                
-                if(decodedCBORIn==nil){
+        switch cborData {
+            case .byteString(let myCbor):
+                do {
+                    let decodedCBORIn = try CBOR.decode(myCbor)
                     
+                    if(decodedCBORIn==nil){
+                        
+                        return String(decoding: myCbor, as: UTF8.self)
+                    }
+                    return parse(cborData: decodedCBORIn!)
+                } catch {
                     return String(decoding: myCbor, as: UTF8.self)
                 }
-                return parse(cborData: decodedCBORIn!)
-            } catch {
-                
-                return String(decoding: myCbor, as: UTF8.self)
-            }
+            case .utf8String(let myCbor):
+                return myCbor
+            case .array(let myCbor):
+                var cborArray: Array<Any> = Array()
+                for cborElement in myCbor {
+                    let parsed = parse(cborData: cborElement)
+                    cborArray.append(parsed)
+                }
+                return cborArray
+            case .map(let myCbor):
+                var cborMap: [String: Any] = [:]
+                for (key,value) in myCbor {
+                    let parsed = parse(cborData: value)
+                    
+                    let extractedKey: Any = parse(cborData: key)
+                    
+                    cborMap["\(extractedKey)"] = parsed
+                }
+                return cborMap
+            case .unsignedInt(let myCbor), .negativeInt(let myCbor):
+                return myCbor
+            case .tagged(_, let taggedValue):
+                return parse(cborData: taggedValue)
+            case .simple(let myCbor):
+                return myCbor
+            case .boolean(let myCbor):
+                return myCbor
+            case .half(let myCbor):
+                return myCbor
+            case .float(let myCbor):
+                return myCbor
+            case .double(let myCbor):
+                return myCbor
+            case .date(let myCbor):
+                return myCbor
+            case .null,.undefined, .break:
+                return ""
         }
-        if case .date(let myCbor) = cborData {
-            
-            return myCbor
-        }
-        if case .double(let myCbor) = cborData {
-            
-            return myCbor
-        }
-        if case .float(let myCbor) = cborData {
-            
-            return myCbor
-        }
-        if case .simple(let myCbor) = cborData {
-            
-            return myCbor
-        }
-        if case .negativeInt(let uInt64) = cborData {
-            
-            return uInt64
-        }
-        if case .utf8String(let string) = cborData {
-            return string
-        }
-        if case .unsignedInt(let uInt64) = cborData {
-            return uInt64
-        }
-        
-        return ""
     }
 }

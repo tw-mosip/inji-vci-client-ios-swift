@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import SwiftCBOR
 @testable import VCIClient
 
 class CborLibraryUtilsTest: XCTestCase {
@@ -10,5 +11,14 @@ class CborLibraryUtilsTest: XCTestCase {
             
             XCTAssertNotNil(result,"parsed cbor data is not nil")
     }
+    
+    func testBase64UrlSafeInputDecodingFailure()  {
+        XCTAssertThrowsError(try CborLibrayUtils().decodeAndParseMdoc(base64EncodedString: "aGVsbG9Xbhgfytesa22+3JsZA")) { error in
+            let decodeAndParseMdocError = error as NSError
+            XCTAssertTrue(decodeAndParseMdocError is DownloadFailedError)
+            XCTAssertEqual(decodeAndParseMdocError.description,"""
+VCIClient.DownloadFailedError.customError(description: "Error while base64 url decoding the credential response")
+""")
+        }
+    }
 }
-

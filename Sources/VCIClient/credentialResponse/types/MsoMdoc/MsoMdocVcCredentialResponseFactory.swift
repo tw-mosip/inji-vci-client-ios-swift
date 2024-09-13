@@ -10,8 +10,8 @@ class MsoMdocCredentialResponseFactory: CredentialResponseFactoryProtocol {
             let vc = MsoMdocCredential(credential: Util.convertToAnyCodable(dict: result ?? [String:AnyCodable]()))
             return vc
         }
-        catch{
-            print(logTag,"error occurred while parsing mso_mdoc data")
+        catch let error {
+            print(logTag,"error occurred while parsing mso_mdoc data - \(error.localizedDescription)")
             throw DownloadFailedError.decodingResponseFailed
         }
     }

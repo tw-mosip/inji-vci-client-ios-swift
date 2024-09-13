@@ -4,10 +4,14 @@ public class VCIClient {
     
     let networkSession: NetworkSession
     let traceabilityId: String
+    let credentialRequestFactory: CredentialRequestFactoryProtocol
     
-    public init(traceabilityId: String, networkSession: NetworkSession? = nil) {
+    public init(traceabilityId: String,
+                networkSession: NetworkSession? = nil, 
+                credentialRequestFactory: CredentialRequestFactoryProtocol? = nil ) {
         self.traceabilityId = traceabilityId
         self.networkSession = networkSession ?? URLSession.shared
+        self.credentialRequestFactory = credentialRequestFactory ?? CredentialRequestFactory.shared
     }
     
     public func requestCredential(
@@ -22,7 +26,7 @@ public class VCIClient {
                 throw DownloadFailedError.invalidURL
             }
             
-            let request = CredentialRequestfactory.createCredentialRequest(
+            let request = try credentialRequestFactory.createCredentialRequest(
                 url: url,
                 credentialFormat: issuerMeta.credentialFormat,
                 accessToken: accessToken,

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum DownloadFailedError: Error {
+enum DownloadFailedError: Error {
     case invalidURL
     case invalidDataProvidedException(invalidFields: String)
     case requestGenerationFailed

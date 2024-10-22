@@ -4,10 +4,7 @@ class MsoMdocCredentialResponseFactory: CredentialResponseFactoryProtocol {
     func constructResponse(response: Data) throws -> CredentialResponse? {
         let logTag = Util.getLogTag(className: String(describing: type(of: self)))
         do{
-            let decodedCredentialResponse = try JSONDecoder().decode(MsoMdocVcResponse.self, from: response)
-            let result = try? CborLibrayUtils().decodeAndParseMdoc(base64EncodedString: decodedCredentialResponse.credential)
-            
-            let vc = MsoMdocCredential(credential: Util.convertToAnyCodable(dict: result ?? [String:AnyCodable]()))
+            let vc = try JSONDecoder().decode(VC.self, from: response)
             return vc
         }
         catch let error {
